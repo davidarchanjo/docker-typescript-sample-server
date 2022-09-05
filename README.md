@@ -10,14 +10,14 @@
 ## INITIALIZING THE PROJECT
 ### 1 - Create the project directory
 ```shell
-$ mkdir docker-typescript-sample-server
-$ cd docker-typescript-sample-server
+mkdir docker-typescript-sample-server
+cd docker-typescript-sample-server
 ```
 </br>
 
 ### 2 - Initialize the project as a npm project:
 ```shell
-$ npm init -y
+npm init -y
 ```
 From the command above, the `-y` flag indicates to `npm init` to automatically accept and apply the default settings. After this command completes you should have a [package.json](./package.json) file with content similar to the following:
 ```json
@@ -38,13 +38,13 @@ From the command above, the `-y` flag indicates to `npm init` to automatically a
 
 ### 3 - Install and configure TypeScript in the project
 ```shell
-$ npm install -D typescript
+npm install -D typescript
 ```
 From the command above, the `-D` flag indicates to `npm install` to install TypeScript as a development dependency, which adds it to the devDependencies list at [package.json](./package.json). 
 
 As a last step, it is required to configure TypeScript compiler options, and for this task we have to create a [tsconfig.json](./tsconfig.json) at the project's root path.
 ```shell
-$ touch tsconfig.json # or tsc --init
+touch tsconfig.json # or tsc --init
 ```
 For this sample project, we need only to configure the following options:
 ```json
@@ -74,10 +74,10 @@ Check [here](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) to
 
 ### 4 - Install and configure Express.js in the project
 ```shell
-$ npm install express
-$ npm install -D ts-node
-$ npm install -D @types/node
-$ npm install -D @types/express
+npm install express
+npm install -D ts-node
+npm install -D @types/node
+npm install -D @types/express
 ```
 `npm install express` - This command installs Express.js in the project.<br>
 `npm install -D ts-node` - This command installs Ts-Node in the project so we can run our TypeScript code directly from Node without precompilation.<br>
@@ -99,7 +99,7 @@ From those entries, we can now execute the application in development mode by ex
 ## IMPLEMENTING THE APPLICATION
 We will create a [app.ts](./app.ts) file where we will define a very simple Web application using the [Express.js](https://Express.js.com/) framework.
 ```shell
-$ touch app.ts
+touch app.ts
 ```
 
 Open the file and pastes the following lines:
@@ -124,7 +124,7 @@ The application will start a server and listens on port 8080 for connections. An
 ## TESTING THE APPLICATION
 As mentioned earlier, to run our TypeScript application we will use [ts-node](https://www.npmjs.com/package/ts-node), which is an execution engine that allows us to run TypeScript files directly, without the need for precompilation/transpilation to Javascript.
 ```shell
-$ npm run dev
+npm run dev
 ```
 
 Now, if we visit your browser at http://localhost:8080, you should get:
@@ -133,7 +133,7 @@ Now, if we visit your browser at http://localhost:8080, you should get:
 
 Or from the shell using `curl` you should get the same message:
 ```shell
-$ curl localhost:8080
+curl localhost:8080
 
 🚀 Hello World from TypeScript 🚀
 ```
@@ -176,7 +176,7 @@ CMD ["node", "dist/app.js"]
 ### 2 - Define the .dockerignore
 To ensure only the required files are copied into the Docker image, create a file in the project root path called [.dockerignore](./.dockerignore). The .dockerignore allows us to mention a list of files and/or directories which we want be ignored while building our image. This would definitely reduce the size of the image and also help to speed up the docker build process.
 ```shell
-$ touch .dockerignore
+touch .dockerignore
 ```
 
 And then paste the following lines in it:
@@ -190,7 +190,7 @@ README.md
 
 ### 3 - Build the application image
 ```shell
-$ docker build -t docker-typescript-sample-server .
+docker build -t docker-typescript-sample-server .
 ```
 From the command above, the `-t` flag is used to tag the image as **docker-typescript-sample-server** so we can reference it later from command such as `docker images` or `docker run`, as we will see next. The `.` signals that the build context is the current working directory.
 
@@ -227,7 +227,7 @@ Successfully tagged docker-typescript-sample-server:latest
 
 ### 4 - Run the application image
 ```shell
-$ docker run docker-typescript-sample-server --name docker-typescript-sample-server -p 8080:8080 -it --rm docker-typescript-sample-server
+docker run docker-typescript-sample-server --name docker-typescript-sample-server -p 8080:8080 -it --rm docker-typescript-sample-server
 ```
 - `run docker-typescript-sample-server` indicates which docker image we want to run.<br>
 - `--name docker-typescript-sample-server` flag used to give a memorable name to the container.<br>
@@ -244,5 +244,5 @@ Application is listening at http://localhost:8080
 
 ### 5 - Stop the application container
 ```shell
-$ docker kill docker-typescript-sample-server
+docker kill docker-typescript-sample-server
 ```
