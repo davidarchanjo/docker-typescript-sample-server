@@ -1,5 +1,5 @@
 {
-  "name": "docker-typescript-sample-web-app",
+  "name": "docker-typescript-sample-server",
   "version": "1.0.0",
   "description": "- To get started, create a new folder called `node-express-app` and move into it:     ```shell     $ mkdir node-express-app; cd node-express-app     ```",
   "main": "index.js",

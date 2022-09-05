@@ -10,8 +10,8 @@
 ## INITIALIZING THE PROJECT
 ### 1 - Create the project directory
 ```shell
-$ mkdir docker-typescript-sample-web-app
-$ cd docker-typescript-sample-web-app
+$ mkdir docker-typescript-sample-server
+$ cd docker-typescript-sample-server
 ```
 </br>
 
@@ -22,7 +22,7 @@ $ npm init -y
 From the command above, the `-y` flag indicates to `npm init` to automatically accept and apply the default settings. After this command completes you should have a [package.json](./package.json) file with content similar to the following:
 ```json
 {
-    "name": "docker-typescript-sample-web-app",
+    "name": "docker-typescript-sample-server",
     "version": "1.0.0",
     "description": "- To get started, create a new folder called `node-express-app` and move into it:     ```shell     $ mkdir node-express-app; cd node-express-app     ```",
     "main": "index.js",
@@ -161,15 +161,15 @@ EXPOSE 8080
 
 CMD ["node", "dist/app.js"]
 ```
-`FROM node:16-alpine` - Indicates the base image of our container.<br>
-`WORKDIR /usr/src/app` - Creates a directory to hold the application code in the container's file system.<br>
-`COPY . .` - Copies all files and directories from where `docker build` command is ran into the path relative to WORKDIR.<br>
-`RUN npm ci --only=production` - Based on [package-lock.json](./package-lock.json) install only dependencies. devDependencies are ignored.<br>
-`RUN npm install -D @types/node` - Installs `types/node` as devDependency so that our application can have access to the global 'process' module from Node in production.<br>
-`RUN npm install -g typescript` - Installs Typescript globally in the container runtime system so we can have access to `tsc`, the Typescript cli compiler.<br>
-`RUN tsc -p .` - Compiles the project by transpiling TypeScript files (.ts) into JavaScript files (.js). The resulting .js files are put into the dist directory.<br>
-`EXPOSE 8080` - Defines that the application will be listening for requests at 8080 port.<br>
-`CMD ["node", "dist/app.js"]` - Defines the command to run the application.
+- `FROM node:16-alpine` Indicates the base image of our container.<br>
+- `WORKDIR /usr/src/app` Creates a directory to hold the application code in the container's file system.<br>
+- `COPY . .` Copies all files and directories from where `docker build` command is ran into the path relative to WORKDIR.<br>
+- `RUN npm ci --only=production` Based on [package-lock.json](./package-lock.json) install only dependencies. devDependencies are ignored.<br>
+- `RUN npm install -D @types/node` Installs `types/node` as devDependency so that our application can have access to the global 'process' module from Node in production.<br>
+- `RUN npm install -g typescript` Installs Typescript globally in the container runtime system so we can have access to `tsc`, the Typescript cli compiler.<br>
+- `RUN tsc -p .` Compiles the project by transpiling TypeScript files (.ts) into JavaScript files (.js). The resulting .js files are put into the dist directory.<br>
+- `EXPOSE 8080` Defines that the application will be listening for requests at port 8080.<br>
+- `CMD ["node", "dist/app.js"]` Defines the command to run the application.
 </br>
 
 
@@ -190,9 +190,9 @@ README.md
 
 ### 3 - Build the application image
 ```shell
-$ docker build -t docker-typescript-sample-web-app .
+$ docker build -t docker-typescript-sample-server .
 ```
-From the command above, the `-t` flag is used to tag the image as **docker-typescript-sample-web-app** so we can reference it later from command such as `docker images` or `docker run`, as we will see next. The `.` signals that the build context is the current working directory.
+From the command above, the `-t` flag is used to tag the image as **docker-typescript-sample-server** so we can reference it later from command such as `docker images` or `docker run`, as we will see next. The `.` signals that the build context is the current working directory.
 
 You should get an output like:
 ```shell
@@ -221,15 +221,20 @@ Step 8/8 : CMD ["node", "dist/app.js"]
  ---> Using cache
  ---> 674f760df5ec
 Successfully built 674f760df5ec
-Successfully tagged docker-typescript-sample-web-app:latest
+Successfully tagged docker-typescript-sample-server:latest
 ```
 </br>
 
 ### 4 - Run the application image
 ```shell
-$ docker run --name docker-typescript-sample-web-app -p 8080:8080 -it --rm docker-typescript-sample-web-app
+$ docker run docker-typescript-sample-server --name docker-typescript-sample-server -p 8080:8080 -it --rm docker-typescript-sample-server
 ```
-From the command above, the `--name` flag is used give a memorable name to the container. The `-p` flag is used to bind the container's exposed port on Dockerfile to the host. The `-it` flag is used to start the container in interactive mode, allowing us to interact with /bin/bash of the container. The `--rm` flag is used to automatically remove the container when it exits.
+- `run docker-typescript-sample-server` indicates which docker image we want to run.<br>
+- `--name docker-typescript-sample-server` flag used to give a memorable name to the container.<br>
+- `-p 8080:8080` flag used to bind the exposed port of the container on Dockerfile to the host.<br>
+- `-it` flag used to start the container in interactive mode, allowing us to interact with /bin/bash of the container.<br>
+- `--rm` flag used to automatically remove the container when it exits (for instance when we hit CTRL+C)
+<br>
 
 You should get an output like:
 ```shell
@@ -237,7 +242,7 @@ Application is listening at http://localhost:8080
 ```
 </br>
 
-### 5 - Stop the application image
+### 5 - Stop the application container
 ```shell
-$ docker kill docker-typescript-sample-web-app
+$ docker kill docker-typescript-sample-server
 ```
